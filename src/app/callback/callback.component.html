@@ -1,0 +1,30 @@
+<div *ngIf="authService.isAuthenticated; else noAuth">
+  <button (click)="authService.logout()">Logout</button>
+  <button (click)="authService.forceRefreshSession()">RefreshSession</button>
+  <button (click)="authService.openWindow()">Open normal popup</button>
+  <a href="/" target="_blank">Test link</a>
+  <hr />
+
+  Is Authenticated: {{ authService.isAuthenticated }}
+
+  <br />
+  userData
+  <pre>{{ authService.userData$ | async | json }}</pre>
+  <div *ngIf="authService.accessToken$ | async as token">
+    accessToken
+    <div style="word-wrap: break-word; padding: 1rem; border:solid 2px red;" >
+      {{ token }}
+    </div>
+    <button (click)="copy(token)">Copy to clipboard</button>
+  </div>
+
+  <br />
+</div>
+
+<ng-template #noAuth>
+  <button (click)="authService.login()">Login using popup</button>
+  <button (click)="authService.openWindow()">Open normal popup (tab)</button>
+  <a href="/" target="_blank">Test link</a>
+  <hr />
+  You are NOT authenticated
+</ng-template>
